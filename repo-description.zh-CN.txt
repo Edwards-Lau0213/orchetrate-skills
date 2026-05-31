@@ -1,1 +1,0 @@
-面向 Codex、Claude Code、Cursor、GitHub Copilot 等 Agent 工具的 Skill 编排器：自动扫描本地 Skills，生成可确认的任务 pipeline，并衔接 goal 执行。
