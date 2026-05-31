@@ -124,6 +124,82 @@ You can also test the scanner directly:
 python .\skills\orchestrate-skills\scripts\scan_installed_skills.py --query "帮我设计公司主页" --top 10
 ```
 
+## Quick Examples
+
+These are compact examples you can copy into an agent. The actual pipeline should still be based on the agent's current local Skill inventory.
+
+### Company Homepage
+
+```text
+I want to design a company homepage.
+```
+
+Likely pipeline: `base Codex` for discovery -> `build-web-apps:frontend-app-builder` for page planning -> `base Codex` for implementation -> `qa` or browser checks for verification.
+
+Goal objective:
+
+```text
+Build a company homepage in the current project and verify it with browser checks.
+```
+
+### Improve A Skill
+
+```text
+Continue improving orchestrate-skills so it is better for open source and cross-agent use.
+```
+
+Likely pipeline: `orchestrate-skills` for inventory and task routing -> `skill-creator` for Skill structure review -> `base Codex` for edits -> validation with `quick_validate`, unit tests, scanner smoke tests, and sensitive path scans.
+
+Goal objective:
+
+```text
+Update orchestrate-skills for cross-agent portability, validate the skill, and run repository tests.
+```
+
+### Publish To GitHub
+
+```text
+Push this Skill repository to GitHub.
+```
+
+Likely pipeline: `base Codex` for git status, remotes, and ignored files -> test and sensitive path checks -> GitHub workflow for stage, commit, and push -> remote verification.
+
+Goal objective:
+
+```text
+Publish the intended Skill repository changes to GitHub and verify the remote branch.
+```
+
+### Xiaohongshu Carousel
+
+```text
+Create a Xiaohongshu carousel introducing this Skill's pain points and benefits.
+```
+
+Likely pipeline: `base Codex` to extract product facts from README and `SKILL.md` -> copy and page planning -> `imagegen` for carousel images -> final checks for captions, tags, and output paths.
+
+Goal objective:
+
+```text
+Create a Xiaohongshu carousel package with images, captions, body copy, tags, and verified output paths.
+```
+
+### Douyin Promo Video
+
+```text
+Generate a Chinese Douyin promo video with a strong first 3 seconds and Chinese captions.
+```
+
+Likely pipeline: `base Codex` for positioning and hook -> `hyperframes` for vertical video planning -> `hyperframes-cli` for rendering -> inspect, bitrate, caption, and frame checks.
+
+Goal objective:
+
+```text
+Render a vertical Douyin promo video with Chinese captions, a strong opening hook, and verified high-bitrate MP4 output.
+```
+
+See [docs/examples/pipeline-examples.zh-CN.md](docs/examples/pipeline-examples.zh-CN.md) for fuller Chinese examples.
+
 ## Refresh Inventory
 
 Generate a local inventory report:
@@ -148,8 +224,6 @@ This README follows patterns common in popular agent projects: fast value statem
 - `SKILL.md` contains only the core workflow.
 - `references/` contains optional details for adapter and pipeline variants.
 - `scripts/` handles deterministic inventory scanning.
-
-See [docs/examples/pipeline-examples.zh-CN.md](docs/examples/pipeline-examples.zh-CN.md) for realistic Chinese task-to-pipeline examples.
 
 ## Validation
 

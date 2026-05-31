@@ -124,6 +124,82 @@ cp -R skills/orchestrate-skills ~/.claude/skills/orchestrate-skills
 python .\skills\orchestrate-skills\scripts\scan_installed_skills.py --query "帮我设计公司主页" --top 10
 ```
 
+## 快速示例
+
+下面这些示例可以直接复制给 Agent。实际 pipeline 仍然以当前机器扫描到的本地 Skill inventory 为准。
+
+### 示例 1：公司主页
+
+```text
+我要为公司设计一个主页。
+```
+
+可能形成的 pipeline：`Base Codex` 做需求和项目结构识别 -> `build-web-apps:frontend-app-builder` 规划页面结构和组件 -> `Base Codex` 实现页面 -> `qa` 或浏览器检查做响应式和渲染验证。
+
+Goal objective：
+
+```text
+Build a company homepage in the current project and verify it with browser checks.
+```
+
+### 示例 2：优化一个 Skill
+
+```text
+继续优化 orchestrate-skills，让它更适合开源和跨 Agent 使用。
+```
+
+可能形成的 pipeline：`orchestrate-skills` 做 inventory 和任务路由 -> `skill-creator` 检查 Skill 结构、description、progressive disclosure 和验证方式 -> `Base Codex` 修改文档、脚本或 references -> 用 `quick_validate`、单元测试、scanner smoke test 和敏感路径扫描验证。
+
+Goal objective：
+
+```text
+Update orchestrate-skills for cross-agent portability, validate the skill, and run repository tests.
+```
+
+### 示例 3：发布到 GitHub
+
+```text
+把这个 Skill 仓库推送到 GitHub。
+```
+
+可能形成的 pipeline：`Base Codex` 检查 git status、remote、branch 和忽略文件 -> 运行测试和敏感路径扫描 -> GitHub workflow 执行 stage、commit、push -> 验证远端分支和 commit。
+
+Goal objective：
+
+```text
+Publish the intended Skill repository changes to GitHub and verify the remote branch.
+```
+
+### 示例 4：小红书图文
+
+```text
+帮我生成小红书图文，介绍这个 Skill 的痛点和好处。
+```
+
+可能形成的 pipeline：`Base Codex` 从 README 和 `SKILL.md` 提炼产品事实 -> 规划封面、痛点、机制、收益和 CTA -> `imagegen` 生成轮播图 -> 检查文案、标签、图片路径和发布完整性。
+
+Goal objective：
+
+```text
+Create a Xiaohongshu carousel package with images, captions, body copy, tags, and verified output paths.
+```
+
+### 示例 5：抖音短视频
+
+```text
+生成一个中文抖音推广视频，前 3 秒吸引观众，带中文字幕。
+```
+
+可能形成的 pipeline：`Base Codex` 提炼卖点和黄金 3 秒 hook -> `hyperframes` 规划竖屏叙事、字幕节奏和视觉风格 -> `hyperframes-cli` 渲染视频 -> 检查字幕、抽帧、码率和 MP4 输出。
+
+Goal objective：
+
+```text
+Render a vertical Douyin promo video with Chinese captions, a strong opening hook, and verified high-bitrate MP4 output.
+```
+
+更完整的中文示例见：[docs/examples/pipeline-examples.zh-CN.md](docs/examples/pipeline-examples.zh-CN.md)。
+
 ## 刷新 Skill 清单
 
 生成本地 inventory 报告：
@@ -148,8 +224,6 @@ python .\skills\orchestrate-skills\scripts\scan_installed_skills.py --query "帮
 - `SKILL.md` 只保留核心工作流。
 - `references/` 保存可选细节，仅在需要时读取。
 - `scripts/` 负责确定性的 inventory 扫描。
-
-真实任务到 pipeline 的中文示例见：[docs/examples/pipeline-examples.zh-CN.md](docs/examples/pipeline-examples.zh-CN.md)。
 
 ## 验证
 
