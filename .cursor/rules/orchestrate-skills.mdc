@@ -1,0 +1,16 @@
+---
+description: Use the orchestrate-skills workflow for broad tasks, Skill routing, pipeline planning, goal formation, and cross-agent Skill portability.
+alwaysApply: false
+---
+
+Use `skills/orchestrate-skills/SKILL.md` as the canonical workflow.
+
+When a user request is broad, ambiguous, cross-domain, or asks for Skill management:
+
+1. Restate intent.
+2. Inspect available local Skills or instruction files.
+3. Read only shortlisted Skill bodies.
+4. Propose a pipeline with confidence and validation.
+5. Wait for explicit confirmation before substantial implementation.
+
+If the task is about adapting this repository for Cursor, Claude Code, GitHub Copilot, Codex, or other agents, also read `skills/orchestrate-skills/references/agent-adapters.md`.

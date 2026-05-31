@@ -1,20 +1,23 @@
 ---
 name: orchestrate-skills
-description: Use when the user gives a broad, multi-step, ambiguous, or high-stakes task and wants Codex to choose useful local Skills, plan a skill pipeline, confirm the route, create a goal, and keep working until the task is complete.
+description: Use when the user gives a broad, multi-step, ambiguous, cross-domain, or high-stakes task and wants an agent to inspect available local Skills, choose the smallest useful set, form a confirmed execution pipeline, create or translate the task into an explicit goal, and keep working until completion. Also use for Skill inventory management, Skill routing, multi-agent Skill portability, or adapting this workflow for Codex, Claude Code, Cursor, GitHub Copilot, OpenHands, Cline, Continue, Windsurf, or other coding-agent tools.
 ---
 
 # Orchestrate Skills
 
 ## Overview
 
-Turn an open-ended request into a confirmed execution pipeline. Prefer local Codex Skills over memory or generic reasoning, then run the work under an explicit goal after user confirmation.
+Turn an open-ended request into a confirmed execution pipeline. Prefer local Skills and agent-native instruction files over memory or generic reasoning, then run the work under an explicit goal after user confirmation.
+
+This Skill is the canonical workflow. Other agents may reach it through thin adapters such as `AGENTS.md`, `CLAUDE.md`, Cursor rules, or Copilot instructions; those adapters should point back here rather than duplicate the full workflow.
 
 ## Workflow
 
 1. Restate the task intent in one sentence.
 2. Identify task type, likely deliverables, constraints, and risks.
 3. Refresh the local Skill inventory before proposing execution:
-   - Run this skill's `scripts/scan_installed_skills.py` against `~/.codex/skills`.
+   - Run this skill's `scripts/scan_installed_skills.py` against the active agent's Skill root.
+   - For Codex, default to `~/.codex/skills`; for Claude Code, default to `~/.claude/skills`; for project-local usage, prefer the nearest repo skill folder when the adapter defines one.
    - Pass the user task as `--query`, use `--top 25`, and write the full scan to `generated/latest-installed-skills.json`.
    - The scan reads only each `SKILL.md` frontmatter and uses `references/routing-aliases.json` for multilingual routing hints, so it stays cheap even with many Skills.
    - Treat `.system` Skills as authoring/runtime helpers, not ordinary workflow options unless the task is about skills, plugins, OpenAI docs, or image generation.
@@ -44,6 +47,7 @@ By default, the scanner hides zero-score entries and downweights generic descrip
 
 - `references/routing-aliases.json`: multilingual alias-to-Skill boost rules. Read or edit this when routing misses common user wording.
 - `references/pipeline-patterns.md`: common pipeline skeletons for papers, patents, experiments, frontend animation, and Skill authoring. Use it only after inventory scan confirms the referenced Skills exist.
+- `references/agent-adapters.md`: compatibility notes for Codex, Claude Code, Cursor, GitHub Copilot, and other agents. Read it only when the task asks about cross-agent installation, migration, adapter generation, or portability.
 
 ## Token Budget Rules
 
@@ -103,6 +107,7 @@ For simple tasks, keep the pipeline short. For research, coding, documents, depl
 - Include process Skills only when they materially change execution, for example `review`, `qa`, `test-driven-development`, or `verification-before-completion`.
 - If no local Skill fits, say so and use base Codex capabilities rather than forcing an irrelevant Skill.
 - Do not include duplicate source copies in the same pipeline. If a Skill exists both in Codex installed and a desktop source repo, use the installed Codex copy.
+- For non-Codex agents, preserve this Skill as the source of truth and create only a small adapter that explains where the canonical `SKILL.md` lives and how to invoke the pipeline confirmation workflow.
 
 ## Confirmation and Goal Rules
 

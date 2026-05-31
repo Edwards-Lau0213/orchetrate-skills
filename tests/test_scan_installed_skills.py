@@ -116,6 +116,24 @@ class ScanInstalledSkillsTest(unittest.TestCase):
         self.assertEqual(score, 1)
         self.assertEqual(reasons, ["description-generic:skills"])
 
+    def test_agent_tool_alias_routes_to_orchestrate_skills(self):
+        scanner = load_scanner()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_skill(
+                root,
+                "orchestrate-skills",
+                "orchestrate-skills",
+                "Plan confirmed Skill pipelines for multiple agent tools.",
+            )
+            write_skill(root, "skill-creator", "skill-creator", "Create and update Skills.")
+            aliases = {"cursor": {"orchestrate-skills": 8}}
+
+            entries = scanner.scan(root, include_system=False, query="适配 Cursor", aliases=aliases)
+
+        self.assertEqual(entries[0].name, "orchestrate-skills")
+        self.assertIn("alias:cursor+8", entries[0].reason)
+
 
 if __name__ == "__main__":
     unittest.main()

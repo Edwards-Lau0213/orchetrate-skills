@@ -86,5 +86,61 @@
     "orchestrate-skills": 6,
     "skill-creator": 5,
     "skill-installer": 4
+  },
+  "agent": {
+    "orchestrate-skills": 7,
+    "skill-creator": 3
+  },
+  "agents": {
+    "orchestrate-skills": 7,
+    "skill-creator": 3
+  },
+  "pipeline": {
+    "orchestrate-skills": 8
+  },
+  "goal": {
+    "orchestrate-skills": 6
+  },
+  "claude": {
+    "orchestrate-skills": 6,
+    "skill-installer": 3
+  },
+  "claude code": {
+    "orchestrate-skills": 8,
+    "skill-installer": 4
+  },
+  "cursor": {
+    "orchestrate-skills": 8
+  },
+  "copilot": {
+    "orchestrate-skills": 8
+  },
+  "caploit": {
+    "orchestrate-skills": 8
+  },
+  "openhands": {
+    "orchestrate-skills": 6
+  },
+  "cline": {
+    "orchestrate-skills": 6
+  },
+  "continue": {
+    "orchestrate-skills": 6
+  },
+  "windsurf": {
+    "orchestrate-skills": 6
+  },
+  "适配": {
+    "orchestrate-skills": 8,
+    "skill-creator": 4
+  },
+  "迁移": {
+    "orchestrate-skills": 6,
+    "skill-installer": 4
+  },
+  "管理skill": {
+    "orchestrate-skills": 8,
+    "skill-creator": 4,
+    "skill-installer": 4
   }
 }

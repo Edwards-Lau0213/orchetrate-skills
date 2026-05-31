@@ -1,60 +1,153 @@
-# Codex Skills 管理索引
+# Orchestrate Skills
 
-这个目录用于管理和审计本机可用的 Skills。默认只纳入 Codex 当前会加载的全局 Skills：
+Turn a broad agent task into a confirmed Skill pipeline, then execute it as a concrete goal.
 
-- `$HOME\.codex\skills`：Codex 当前会加载的全局 Skills，包含 `.system` 下的系统 Skills。
+`orchestrate-skills` is a portable Skill for agents that support local instructions, Skills, rules, or repository guidance. It scans available `SKILL.md` metadata, selects a small set of useful capabilities, proposes a pipeline, waits for user confirmation, and keeps validation explicit.
 
-其他 repo-local 或上游源目录可以在刷新清单时通过参数显式传入，不应把个人电脑上的绝对路径提交到仓库。
+## Why This Exists
 
-新增的 `orchestrate-skills` 是入口调度 Skill：适合在任务较宽、较模糊或跨多个阶段时先做意图识别、扫描本地已安装 Skills、形成 pipeline，并在用户确认后创建 goal 执行。它自带轻量扫描脚本，只读取 `SKILL.md` frontmatter，避免一次性加载所有 Skill 正文。
+As local Skills grow, the hard part is no longer writing one Skill. The hard part is choosing the right combination without loading every file into context.
 
-## 开源 Skill
+This Skill provides:
 
-可开源的源目录在：
+- **Fresh inventory**: scan installed Skills at the start of each use.
+- **Cheap routing**: read only `SKILL.md` frontmatter before shortlisting.
+- **Pipeline planning**: map tasks into discover, plan, implement, verify, review, and ship steps.
+- **User confirmation**: wait before substantial work or side effects.
+- **Goal handoff**: turn the confirmed pipeline into a concrete execution objective.
+- **Agent portability**: keep one canonical Skill and add thin adapters for Codex, Claude Code, Cursor, GitHub Copilot, and similar tools.
 
-- `skills\orchestrate-skills`
+## Repository Layout
 
-安装到本机 Codex：
+```text
+.
+├── skills/orchestrate-skills/          # Canonical Skill package
+│   ├── SKILL.md                        # Main workflow and trigger description
+│   ├── agents/openai.yaml              # Codex/OpenAI UI metadata
+│   ├── references/                     # Optional context loaded only when needed
+│   └── scripts/scan_installed_skills.py
+├── AGENTS.md                           # Cross-agent repository contract
+├── CLAUDE.md                           # Claude Code adapter notes
+├── .cursor/rules/orchestrate-skills.mdc
+├── .github/copilot-instructions.md
+├── scripts/Export-SkillInventory.ps1
+└── tests/
+```
+
+## Supported Agent Surfaces
+
+| Tool | Support level | How to use |
+|---|---|---|
+| Codex | Native Skill folder | Copy `skills/orchestrate-skills` to `$HOME/.codex/skills/orchestrate-skills`. |
+| Claude Code | Native Skill folder | Copy the same folder to `$HOME/.claude/skills/orchestrate-skills` or `.claude/skills/orchestrate-skills`. |
+| Cursor | Rule adapter | Use `.cursor/rules/orchestrate-skills.mdc` to point Cursor back to the canonical Skill. |
+| GitHub Copilot | Repository instructions | Use `.github/copilot-instructions.md` and `AGENTS.md` for repo-scoped behavior. |
+| OpenHands, Cline, Continue, Windsurf, other agents | Generic adapter | Use `AGENTS.md` plus the host tool's rule/instruction surface. |
+
+The guiding rule is simple: **one canonical Skill, many thin adapters**.
+
+## Install
+
+### Codex
 
 ```powershell
 Copy-Item -Recurse -Force .\skills\orchestrate-skills "$HOME\.codex\skills\orchestrate-skills"
 ```
 
-运行轻量候选扫描：
+### Claude Code
 
-```powershell
-python .\skills\orchestrate-skills\scripts\scan_installed_skills.py --query "帮我写论文并编译 PDF" --top 10
+```bash
+mkdir -p ~/.claude/skills
+cp -R skills/orchestrate-skills ~/.claude/skills/orchestrate-skills
 ```
 
-运行测试：
+### Cursor
+
+Keep `.cursor/rules/orchestrate-skills.mdc` in the target repository, or copy it into another repository that should use this workflow.
+
+### GitHub Copilot
+
+Keep `.github/copilot-instructions.md` and `AGENTS.md` in the repository. Copilot will use repository instructions when working in that repo.
+
+### Scripted Install
+
+Install the Skill for Codex and Claude Code, and copy project adapters into the current repository:
 
 ```powershell
-python -m unittest discover -s tests
+.\scripts\Install-AgentAdapters.ps1 -Targets All -ProjectRoot .
 ```
 
-开源时不要提交 `generated\` 或 `skills\**\generated\`，这些是本机扫描缓存。
+Install only one target:
 
-## 刷新清单
+```powershell
+.\scripts\Install-AgentAdapters.ps1 -Targets Codex
+.\scripts\Install-AgentAdapters.ps1 -Targets Claude
+.\scripts\Install-AgentAdapters.ps1 -Targets ProjectAdapters -ProjectRoot D:\path\to\repo
+```
+
+Project adapter files are not overwritten unless you add `-Force`.
+
+## Usage
+
+Ask an agent something broad:
+
+```text
+I want to design a company homepage.
+```
+
+Expected behavior:
+
+1. Restate intent.
+2. Scan local Skill metadata.
+3. Shortlist relevant Skills.
+4. Propose a pipeline with confidence and validation.
+5. Wait for confirmation.
+6. Create or track a concrete goal when supported by the host agent.
+7. Execute and verify.
+
+You can also test the scanner directly:
+
+```powershell
+python .\skills\orchestrate-skills\scripts\scan_installed_skills.py --query "帮我设计公司主页" --top 10
+```
+
+## Refresh Inventory
+
+Generate a local inventory report:
 
 ```powershell
 .\scripts\Export-SkillInventory.ps1
 ```
 
-如需同时纳入其他 Skill 根目录：
+Include additional Skill roots explicitly:
 
 ```powershell
-.\scripts\Export-SkillInventory.ps1 -ExtraSkillsRoots "D:\path\to\repo\.agents\skills", "D:\path\to\gsap\skills"
+.\scripts\Export-SkillInventory.ps1 -ExtraSkillsRoots "D:\path\to\repo\.agents\skills", "D:\path\to\third-party\skills"
 ```
 
-输出文件：
+Generated files go under `generated*/` and are ignored by Git.
 
-- `generated\skills-inventory.md`：按来源、类别、重复项和完整清单生成的人类可读报告。
-- `generated\skills-inventory.json`：结构化清单，便于后续做筛选、去重或同步脚本。
+## Design Notes
 
-## 管理原则
+This README follows patterns common in popular agent projects: fast value statement, quick install, concrete usage, compatibility notes, examples, and validation commands. The Skill itself follows progressive disclosure:
 
-- 把 `$HOME\.codex\skills` 当作运行时目录：只有真正想让 Codex 全局触发的 Skills 才放这里。
-- 把 repo-local Skills 留在对应项目里：这类 Skills 往往绑定特定代码库，不建议直接混入全局，除非明确希望跨仓库复用。
-- 把上游源目录作为刷新来源：需要同步第三方 Skills 时，先更新上游仓库，再同步到 `.codex\skills`。
-- 把 `orchestrate-skills` 当作任务入口：复杂任务先让它给出 pipeline，确认后再进入 goal 执行。
-- `.system` 目录保留给 Codex 系统 Skills，不手动改名或删除。
+- Frontmatter description decides when the Skill should trigger.
+- `SKILL.md` contains only the core workflow.
+- `references/` contains optional details for adapter and pipeline variants.
+- `scripts/` handles deterministic inventory scanning.
+
+## Validation
+
+```powershell
+python -m unittest discover -s tests
+```
+
+Before publishing, scan for local machine paths:
+
+```powershell
+rg -n "<local-path-or-secret-pattern>" .
+```
+
+## License
+
+MIT.
