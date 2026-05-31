@@ -101,6 +101,33 @@
   "goal": {
     "orchestrate-skills": 6
   },
+  "task routing": {
+    "orchestrate-skills": 9
+  },
+  "intent routing": {
+    "orchestrate-skills": 9
+  },
+  "skill routing": {
+    "orchestrate-skills": 9
+  },
+  "rules": {
+    "orchestrate-skills": 6
+  },
+  "instructions": {
+    "orchestrate-skills": 6
+  },
+  "AGENTS.md": {
+    "orchestrate-skills": 8
+  },
+  "CLAUDE.md": {
+    "orchestrate-skills": 8
+  },
+  ".cursor/rules": {
+    "orchestrate-skills": 8
+  },
+  "copilot-instructions": {
+    "orchestrate-skills": 8
+  },
   "claude": {
     "orchestrate-skills": 6,
     "skill-installer": 3
@@ -133,6 +160,30 @@
   "适配": {
     "orchestrate-skills": 8,
     "skill-creator": 4
+  },
+  "意图识别": {
+    "orchestrate-skills": 9
+  },
+  "任务路由": {
+    "orchestrate-skills": 9
+  },
+  "任务编排": {
+    "orchestrate-skills": 9
+  },
+  "技能编排": {
+    "orchestrate-skills": 9
+  },
+  "规则管理": {
+    "orchestrate-skills": 7
+  },
+  "指令管理": {
+    "orchestrate-skills": 7
+  },
+  "形成goal": {
+    "orchestrate-skills": 8
+  },
+  "形成 pipeline": {
+    "orchestrate-skills": 9
   },
   "迁移": {
     "orchestrate-skills": 6,

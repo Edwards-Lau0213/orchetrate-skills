@@ -32,6 +32,7 @@ This Skill provides:
 ├── CLAUDE.md                           # Claude Code adapter notes
 ├── .cursor/rules/orchestrate-skills.mdc
 ├── .github/copilot-instructions.md
+├── docs/examples/
 ├── scripts/Export-SkillInventory.ps1
 └── tests/
 ```
@@ -89,6 +90,16 @@ Install only one target:
 
 Project adapter files are not overwritten unless you add `-Force`.
 
+Useful safety modes:
+
+```powershell
+.\scripts\Install-AgentAdapters.ps1 -Targets All -DryRun
+.\scripts\Install-AgentAdapters.ps1 -Targets All -Check
+.\scripts\Install-AgentAdapters.ps1 -Targets Codex,Claude -Backup -Force
+```
+
+Backups are written outside Skill roots by default under `$HOME/.codex/skill-backups` so inventory scans do not treat backups as installed Skills. Override with `-BackupRoot` if needed.
+
 ## Usage
 
 Ask an agent something broad:
@@ -137,6 +148,8 @@ This README follows patterns common in popular agent projects: fast value statem
 - `SKILL.md` contains only the core workflow.
 - `references/` contains optional details for adapter and pipeline variants.
 - `scripts/` handles deterministic inventory scanning.
+
+See [docs/examples/pipeline-examples.zh-CN.md](docs/examples/pipeline-examples.zh-CN.md) for realistic Chinese task-to-pipeline examples.
 
 ## Validation
 

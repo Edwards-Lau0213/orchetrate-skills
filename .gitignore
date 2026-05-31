@@ -1,5 +1,8 @@
 generated*/
 skills/**/generated/
+douyin-orchestrate-skills/
+*.backup-*
+node_modules/
 __pycache__/
 *.pyc
 .pytest_cache/

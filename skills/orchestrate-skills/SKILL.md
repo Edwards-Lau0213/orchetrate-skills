@@ -1,6 +1,6 @@
 ---
 name: orchestrate-skills
-description: Use when the user gives a broad, multi-step, ambiguous, cross-domain, or high-stakes task and wants an agent to inspect available local Skills, choose the smallest useful set, form a confirmed execution pipeline, create or translate the task into an explicit goal, and keep working until completion. Also use for Skill inventory management, Skill routing, multi-agent Skill portability, or adapting this workflow for Codex, Claude Code, Cursor, GitHub Copilot, OpenHands, Cline, Continue, Windsurf, or other coding-agent tools.
+description: Use when the user gives a broad, multi-step, ambiguous, cross-domain, or high-stakes task and wants an agent to inspect available local Skills/instructions, choose the smallest useful set, form a confirmed execution pipeline, create or translate the task into an explicit goal, and keep working until completion. Also use for Skill inventory management, intent routing, task routing, pipeline planning, goal formation, rules/instructions management, AGENTS.md/CLAUDE.md/Cursor rules/Copilot instructions adapters, or multi-agent Skill portability across Codex, Claude Code, Cursor, GitHub Copilot, OpenHands, Cline, Continue, Windsurf, and similar coding-agent tools.
 ---
 
 # Orchestrate Skills
@@ -24,6 +24,8 @@ This Skill is the canonical workflow. Other agents may reach it through thin ada
 4. Select the smallest useful Skill set.
 5. Read full `SKILL.md` bodies only for the shortlisted Skills that are likely to appear in the pipeline.
 6. Form a pipeline with confidence, validation, and a concrete goal objective.
+   - Explain routing evidence: include the top reasons for selected candidates and one short "not using" note for plausible alternatives.
+   - If a mature pattern exists in `references/pipeline-patterns.md`, adapt it instead of inventing a new step order.
 7. Ask for confirmation before starting substantial work.
 8. After explicit user confirmation, create a goal if the goal tool is available, then execute the pipeline until the goal is complete or genuinely blocked.
 
@@ -108,6 +110,7 @@ For simple tasks, keep the pipeline short. For research, coding, documents, depl
 - If no local Skill fits, say so and use base Codex capabilities rather than forcing an irrelevant Skill.
 - Do not include duplicate source copies in the same pipeline. If a Skill exists both in Codex installed and a desktop source repo, use the installed Codex copy.
 - For non-Codex agents, preserve this Skill as the source of truth and create only a small adapter that explains where the canonical `SKILL.md` lives and how to invoke the pipeline confirmation workflow.
+- If the task asks to manage agent rules or instructions rather than executable Skills, treat those files as instruction surfaces and still propose the same confirm-before-execute pipeline.
 
 ## Confirmation and Goal Rules
 
@@ -130,6 +133,7 @@ Use a concrete, verifiable objective:
 - Debug/fix: `Fix <problem>, prove it with <reproduction/test>, and leave <artifact> updated.`
 - Research/paper: `Produce <paper/report artifact> and verify <compile/citation/claim checks>.`
 - Skill work: `Update <skill name> to support <capability>, validate the skill, and run its tests.`
+- Agent adapter work: `Adapt <skill/workflow> for <agent tools>, preserve the canonical source, verify adapters, and document installation.`
 - Analysis-only: `Analyze <subject> and deliver <summary/report> with evidence from <sources/files>.`
 
 ## Validation Gate

@@ -32,6 +32,7 @@
 ├── CLAUDE.md                           # Claude Code adapter 说明
 ├── .cursor/rules/orchestrate-skills.mdc
 ├── .github/copilot-instructions.md
+├── docs/examples/
 ├── scripts/Export-SkillInventory.ps1
 └── tests/
 ```
@@ -89,6 +90,16 @@ cp -R skills/orchestrate-skills ~/.claude/skills/orchestrate-skills
 
 项目 adapter 默认不会覆盖已有文件；需要覆盖时添加 `-Force`。
 
+常用安全模式：
+
+```powershell
+.\scripts\Install-AgentAdapters.ps1 -Targets All -DryRun
+.\scripts\Install-AgentAdapters.ps1 -Targets All -Check
+.\scripts\Install-AgentAdapters.ps1 -Targets Codex,Claude -Backup -Force
+```
+
+备份默认写到 Skill 根目录之外的 `$HOME/.codex/skill-backups`，避免 inventory 扫描把备份目录误认为已安装 Skill。需要自定义时可以传 `-BackupRoot`。
+
 ## 使用方式
 
 向 Agent 提出一个宽泛任务：
@@ -137,6 +148,8 @@ python .\skills\orchestrate-skills\scripts\scan_installed_skills.py --query "帮
 - `SKILL.md` 只保留核心工作流。
 - `references/` 保存可选细节，仅在需要时读取。
 - `scripts/` 负责确定性的 inventory 扫描。
+
+真实任务到 pipeline 的中文示例见：[docs/examples/pipeline-examples.zh-CN.md](docs/examples/pipeline-examples.zh-CN.md)。
 
 ## 验证
 

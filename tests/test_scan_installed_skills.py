@@ -134,6 +134,25 @@ class ScanInstalledSkillsTest(unittest.TestCase):
         self.assertEqual(entries[0].name, "orchestrate-skills")
         self.assertIn("alias:cursor+8", entries[0].reason)
 
+    def test_repository_aliases_route_chinese_orchestration_terms(self):
+        scanner = load_scanner()
+        aliases_path = REPO_ROOT / "skills" / "orchestrate-skills" / "references" / "routing-aliases.json"
+        aliases = json.loads(aliases_path.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            write_skill(
+                root,
+                "orchestrate-skills",
+                "orchestrate-skills",
+                "Route broad tasks into confirmed pipelines and goals.",
+            )
+            write_skill(root, "skill-creator", "skill-creator", "Create and update Skills.")
+
+            entries = scanner.scan(root, include_system=False, query="帮我做任务编排并形成goal", aliases=aliases)
+
+        self.assertEqual(entries[0].name, "orchestrate-skills")
+        self.assertTrue(any(reason.startswith("alias:任务编排") for reason in entries[0].reason))
+
 
 if __name__ == "__main__":
     unittest.main()
