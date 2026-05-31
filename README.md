@@ -1,5 +1,7 @@
 # Orchestrate Skills
 
+[简体中文](README.zh-CN.md) | English
+
 Turn a broad agent task into a confirmed Skill pipeline, then execute it as a concrete goal.
 
 `orchestrate-skills` is a portable Skill for agents that support local instructions, Skills, rules, or repository guidance. It scans available `SKILL.md` metadata, selects a small set of useful capabilities, proposes a pipeline, waits for user confirmation, and keeps validation explicit.
@@ -82,7 +84,7 @@ Install only one target:
 ```powershell
 .\scripts\Install-AgentAdapters.ps1 -Targets Codex
 .\scripts\Install-AgentAdapters.ps1 -Targets Claude
-.\scripts\Install-AgentAdapters.ps1 -Targets ProjectAdapters -ProjectRoot D:\path\to\repo
+.\scripts\Install-AgentAdapters.ps1 -Targets ProjectAdapters -ProjectRoot <path-to-repo>
 ```
 
 Project adapter files are not overwritten unless you add `-Force`.
@@ -122,7 +124,7 @@ Generate a local inventory report:
 Include additional Skill roots explicitly:
 
 ```powershell
-.\scripts\Export-SkillInventory.ps1 -ExtraSkillsRoots "D:\path\to\repo\.agents\skills", "D:\path\to\third-party\skills"
+.\scripts\Export-SkillInventory.ps1 -ExtraSkillsRoots "<path-to-repo>\.agents\skills", "<path-to-third-party-skills>"
 ```
 
 Generated files go under `generated*/` and are ignored by Git.
