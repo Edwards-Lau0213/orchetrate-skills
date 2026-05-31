@@ -1,0 +1,90 @@
+{
+  "写论文": {
+    "paper-writing": 10,
+    "paper-plan": 5,
+    "paper-write": 5,
+    "paper-compile": 4
+  },
+  "论文": {
+    "paper-writing": 7,
+    "paper-plan": 4,
+    "paper-write": 4,
+    "paper-compile": 3,
+    "research-lit": 3
+  },
+  "编译": {
+    "paper-compile": 7
+  },
+  "pdf": {
+    "pdf": 5,
+    "paper-compile": 4
+  },
+  "文献": {
+    "research-lit": 7,
+    "arxiv": 5,
+    "semantic-scholar": 5,
+    "deepxiv": 5,
+    "alphaxiv": 3
+  },
+  "查新": {
+    "novelty-check": 8,
+    "prior-art-search": 5,
+    "patent-novelty-check": 5
+  },
+  "实验": {
+    "experiment-plan": 7,
+    "run-experiment": 6,
+    "monitor-experiment": 4,
+    "analyze-results": 4
+  },
+  "结果": {
+    "analyze-results": 6,
+    "result-to-claim": 5,
+    "experiment-audit": 4
+  },
+  "专利": {
+    "patent-pipeline": 8,
+    "claims-drafting": 5,
+    "prior-art-search": 5,
+    "patent-novelty-check": 5
+  },
+  "前端": {
+    "build-web-apps:frontend-app-builder": 5,
+    "qa": 3
+  },
+  "动画": {
+    "gsap-core": 7,
+    "gsap-timeline": 5,
+    "gsap-scrolltrigger": 5,
+    "gsap-react": 4
+  },
+  "gsap": {
+    "gsap-core": 8,
+    "gsap-plugins": 5,
+    "gsap-scrolltrigger": 5,
+    "gsap-react": 5
+  },
+  "qa": {
+    "qa": 8,
+    "qa-only": 6
+  },
+  "测试": {
+    "qa": 5,
+    "testing": 4,
+    "test-driven-development": 4
+  },
+  "部署": {
+    "setup-deploy": 5,
+    "ship": 5
+  },
+  "skill": {
+    "orchestrate-skills": 6,
+    "skill-creator": 5,
+    "skill-installer": 4
+  },
+  "skills": {
+    "orchestrate-skills": 6,
+    "skill-creator": 5,
+    "skill-installer": 4
+  }
+}

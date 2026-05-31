@@ -1,0 +1,4 @@
+interface:
+  display_name: "Orchestrate Skills"
+  short_description: "Turn broad tasks into confirmed skill pipelines."
+  default_prompt: "Analyze my task, find relevant local Codex skills, propose a pipeline, and wait for confirmation before creating a goal and executing."
